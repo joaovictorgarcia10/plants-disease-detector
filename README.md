@@ -6,6 +6,8 @@ Detecção de pragas agrícolas a partir do processamento de imagens combinando 
 
 - [Instalação](#instalação)
 - [Uso](#uso)
+- [Assets](#assets)
+
 
 
 ## Instalação
@@ -37,3 +39,10 @@ Passos para utilizar o projeto:
     ```sh
     http://127.0.0.1:5000
     ```
+
+3. Seguir instruções do Frontend
+
+
+## Assets
+
+No diretório ```assets/images``` disponibilizamos algumas imagens para teste da aplicação
