@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Disease Detector</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Plant Disease Detector</h1>
+        <div class="instructions">
+            <h2>Instruções</h2>
+            <p>Por favor, envie uma foto clara e focada da planta. O modelo pode identificar doenças nas seguintes
+                plantas:</p>
+            <ul id="plant-list">
+                <li>Apple</li>
+                <li>Cherry</li>
+                <li>Corn</li>
+                <li>Grape</li>
+                <li>Orange</li>
+                <li>Peach</li>
+                <li>Pepper</li>
+                <li>Potato</li>
+                <li>Raspberry</li>
+                <li>Soybean</li>
+                <li>Squash</li>
+                <li>Strawberry</li>
+                <li>Tomato</li>
+            </ul>
+            <p>Para fins de teste você pode utilizar imagens encontradas nos assets do projeto.</p>
+        </div>
+        <form id="upload-form" action="/predict" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept="image/*" required>
+            <button type="submit">Upload and Predict</button>
+        </form>
+        <div id="result"></div>
+    </div>
+    <script>
+        const classLabels = {{ class_labels | tojson }};
+
+        function formatClassName(className) {
+            return className.replace(/_/g, ' ').replace(/___/g, ' - ').replace(/\(/g, '').replace(/\)/g, '');
+        }
+
+
+
+        document.getElementById('upload-form').onsubmit = async function (event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const response = await fetch('/predict', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            document.getElementById('result').innerText = result.prediction ? `Prediction: ${formatClassName(result.prediction)}` : 'Error: ' + result.error;
+        };
+    </script>
+</body>
+
+</html>
